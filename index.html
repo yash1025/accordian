@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic Accordion</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f7f7f7;
+    }
+
+    .accordion {
+      margin-bottom: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .accordion button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #3498db;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 0;
+      width: 100%;
+      display: block;
+      transition: background-color 0.3s ease;
+    }
+
+    .accordion button:hover {
+      background-color: #2980b9;
+    }
+
+    .accordion div {
+      border-top: 1px solid #ddd;
+      overflow: hidden;
+    }
+
+    .accordion h3 {
+      background-color: #f5f5f5;
+      padding: 15px 20px;
+      margin: 0;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      border-bottom: 1px solid #ddd;
+      position: relative;
+    }
+
+    .accordion h3.active,
+    .accordion h3:hover {
+      background-color: #e0e0e0;
+    }
+
+    .accordion p {
+      display: none;
+      padding: 15px 20px;
+      margin: 0;
+    }
+
+    .accordion button.removeBtn {
+      background-color: #e74c3c;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+      border-radius: 0;
+      width: 100%;
+      display: block;
+    }
+
+    .accordion button.removeBtn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="accordion">
+  <button id="addSectionBtn">Add Section</button>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const addSectionBtn = document.getElementById('addSectionBtn');
+    const accordion = document.querySelector('.accordion');
+
+    addSectionBtn.addEventListener('click', function () {
+      const sectionCount = document.querySelectorAll('.accordion > div').length + 1;
+
+      const section = document.createElement('div');
+      const title = document.createElement('h3');
+      title.textContent = `Section ${sectionCount}`;
+      section.appendChild(title);
+
+      const description = document.createElement('p');
+      description.textContent = `Description ${sectionCount}`;
+      section.appendChild(description);
+
+      accordion.appendChild(section);
+
+      title.addEventListener('click', function () {
+        const isActive = this.classList.contains('active');
+        const allTitles = document.querySelectorAll('.accordion h3');
+        allTitles.forEach((el) => el.classList.remove('active'));
+        if (!isActive) {
+          this.classList.add('active');
+          const descriptions = this.nextElementSibling;
+          if (descriptions.style.display === 'block') {
+            descriptions.style.display = 'none';
+          } else {
+            descriptions.style.display = 'block';
+          }
+        }
+      });
+
+      const removeBtn = document.createElement('button');
+      removeBtn.textContent = 'Remove Section';
+      removeBtn.classList.add('removeBtn');
+      section.appendChild(removeBtn);
+
+      removeBtn.addEventListener('click', function () {
+        section.remove();
+      });
+    });
+  });
+</script>
+</body>
+</html>
